@@ -30,6 +30,7 @@ pkg_deps=(
     core/sshpass
     guskovd/rust-nightly
     guskovd/rust-racer
+    guskovd/mdbook
 )
 
 do_shell() {
