@@ -28,6 +28,8 @@ platforms:
         - /var/run/docker.sock:/var/run/docker.sock
 
 suites:
-  - name: mdbook
+  <% ['default', 'mdbook'].each do |suite| %>
+  - name: <%= suite %>
     provisioner:
-      command: cd /tmp/kitchen/data; hs run suite/mdbook.sh
+      command: cd /tmp/kitchen/data; hs run suite/<%= suite %>.sh
+  <% end %>
