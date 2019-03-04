@@ -25,16 +25,31 @@ pkg_deps=(
     core/libsodium
     core/libarchive
     core/ruby/$RUBY_VERSION
-    core/docker
     core/rsync
     core/sshpass
+    core/docker
     guskovd/rust-nightly
     guskovd/rust-racer
     guskovd/mdbook
 )
 
+ruby_setup () {
+    ruby_bundle_path=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
+    mkdir -p $ruby_bundle_path
+
+    pushd "$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" > /dev/null
+    bundle install --binstubs
+    popd > /dev/null
+}
+
+
 do_shell() {
-    . ~/.bashrc
+    export BUNDLE_PATH=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
+
+    export PATH="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.hab-shell/bin:$PATH"
+    export PATH="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/bin:$PATH"
+    
+    [ -f "~/.bashrc" ] && . ~/.bashrc
 }
 
 do_build() {

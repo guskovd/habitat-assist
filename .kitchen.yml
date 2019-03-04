@@ -1,0 +1,33 @@
+os_type: linux
+shell_type: bash
+
+provisioner:
+  name: shell
+  data_path: ./
+
+platforms:
+
+  - name: docker-alpine
+    provisioner:
+      root_path: "/tmp/kitchen"
+      command: cd /tmp/kitchen/data; . provision/init.sh
+    transport:
+      name: rsync
+    driver_config:
+      name: docker
+      image: alpine
+      build_context: <%= ENV['PWD'] %>/lib/test_kitchen
+      dockerfile: <%= ENV['PWD'] %>/lib/test_kitchen/alpine.dockerfile
+      privileged: true
+      use_internal_docker_network: true
+      run_command:
+      volume:
+        - <%= ENV['HOME'] %>/.hab:/home/kitchen/.hab
+        - /hab/pkgs:/hab/pkgs
+        - hab_studios:/hab/studios
+        - /var/run/docker.sock:/var/run/docker.sock
+
+suites:
+  - name: mdbook
+    provisioner:
+      command: cd /tmp/kitchen/data; hs run suite/mdbook.sh
