@@ -20,7 +20,7 @@ def data_path(instance)
   if instance.transport.send('config')[:username] == 'Administrator'
     'C:/Users/Administrator/AppData/Local/Temp/kitchen/data'
   else
-    '/home/kitchen/prog/my-plans'
+    '/home/kitchen/prog/habitat-assist'
   end
 end
 

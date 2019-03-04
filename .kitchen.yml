@@ -22,6 +22,7 @@ platforms:
       use_internal_docker_network: true
       run_command:
       volume:
+        - <%= ENV['PWD'] %>:/home/kitchen/prog/habitat-assist
         - <%= ENV['HOME'] %>/.hab:/home/kitchen/.hab
         - /hab/pkgs:/hab/pkgs
         - hab_studios:/hab/studios

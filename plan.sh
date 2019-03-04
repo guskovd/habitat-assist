@@ -44,12 +44,21 @@ ruby_setup () {
 
 
 do_shell() {
-    export BUNDLE_PATH=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
+    ruby_bundle_path=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
+    
+    mkdir -p $ruby_bundle_path
+    export BUNDLE_PATH=$ruby_bundle_path
+
+    pushd "$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" > /dev/null
+    bundle install --binstubs > /dev/null
+    popd > /dev/null
+
+    [ -f "$HOME/.bashrc" ] && . ~/.bashrc
 
     export PATH="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.hab-shell/bin:$PATH"
     export PATH="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/bin:$PATH"
     
-    [ -f "$HOME/.bashrc" ] && . ~/.bashrc
+
 }
 
 do_build() {
