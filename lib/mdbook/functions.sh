@@ -7,8 +7,9 @@ function mdbook::build() {
     echo "building ..."
     mkdir -p ${BOOK_PATH}/src
     rsync -r --include='*/' --include='*.md' --exclude='*' $PWD/ ./${BOOK_PATH}/src
-    pushd ./${BOOK_PATH}
+    pushd ./${BOOK_PATH} > /dev/null
     mdbook build
+    popd > /dev/null
 }
 
 function mdbook::serve() {

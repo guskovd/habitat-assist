@@ -34,24 +34,13 @@ pkg_deps=(
 )
 
 ruby_setup () {
-    ruby_bundle_path=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
-    mkdir -p $ruby_bundle_path
-
-    pushd "$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" > /dev/null
     bundle install --binstubs
-    popd > /dev/null
 }
 
 
 do_shell() {
-    ruby_bundle_path=$HOME/.hab-shell/ruby/bundle/$RUBY_VERSION
-    
-    mkdir -p $ruby_bundle_path
-    export BUNDLE_PATH=$ruby_bundle_path
-
-    pushd "$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" > /dev/null
-    bundle install --binstubs > /dev/null
-    popd > /dev/null
+    export BUNDLE_PATH=$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.bundle
+    mkdir -p $BUNDLE_PATH
 
     [ -f "$HOME/.bashrc" ] && . ~/.bashrc
 
